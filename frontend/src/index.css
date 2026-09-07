@@ -14,6 +14,9 @@
   animation: marquee 20s linear infinite;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
 
 *{
  /* Hide scrollbar - all browsers */

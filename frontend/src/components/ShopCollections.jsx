@@ -34,8 +34,8 @@ export default function ShopCollections() {
   return (
     <section className="bg-[#fffdf8] ">
       {/* Heading */}
-      <div className="text-center py-2">
-        <h2 className=" font-serif text-[#293b25] text-xl sm:text-2xl md:text-2xl ">
+      <div className="text-center py-1">
+        <h2 className=" font-serif text-[#293b25] text-lg md:text-2xl ">
           Shop by Collection
         </h2>
 

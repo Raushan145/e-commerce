@@ -209,9 +209,9 @@ export default function Banner() {
             md:px-16
             lg:px-15
 
-            py-5
-            sm:py-7
-            md:py-8
+            py-1
+            sm:py-3
+            md:py-4
           "
         >
           {/* ====================================
@@ -331,7 +331,7 @@ export default function Banner() {
               group
 
               absolute
-              bottom-4
+              bottom-2
               left-8
               z-20
 

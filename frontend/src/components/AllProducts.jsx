@@ -126,14 +126,14 @@ const AllProducts = () => {
   }
 
   return (
-    <section className="w-full px-4 py-10 sm:px-6 lg:px-10">
+    <section className="w-full px-4 py-1 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1400px]">
 
         {/* ======================================
             HEADER
         ====================================== */}
 
-        <div className="flex items-end  justify-between py-2 ">
+        <div className="flex items-center px-2 md:px-5  justify-between py-1 pb-1">
                <button></button>
    
              <div>
@@ -142,8 +142,7 @@ const AllProducts = () => {
                  className="
                    font-serif
                    text-[#293b25]
-                   text-xl
-                   sm:text-xl
+                   text-lg
                    md:text-2xl
                  "
                >
@@ -192,7 +191,7 @@ const AllProducts = () => {
             sm:gap-x-5
 
             lg:grid-cols-5
-            md::grid-cols-4
+            md:grid-cols-4
             lg:gap-x-6
             lg:gap-y-10
           "

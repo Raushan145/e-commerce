@@ -173,10 +173,10 @@ export default function ProductCard({ product }) {
         group 
         relative 
         shrink-0 
-        w-[155px] 
+        w-[170px] 
         sm:w-[170px] 
         md:w-[200px] 
-        lg:w-[200px] 
+        lg:w-[220px] 
         rounded-md 
         border 
         border-[#eee8dc] 

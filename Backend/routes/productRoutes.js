@@ -43,7 +43,7 @@ productRouter.put("/update/:id", upload.array("images", 5), updateProduct);
 productRouter.delete("/delete/:id", deleteProduct);
 
 // Recently Viewed
-productRouter.post("/view/:productId", isAuth, addRecentlyViewed);
+productRouter.post("/recent-view/:productId", isAuth, addRecentlyViewed);
 
 // Just For You
 productRouter.get("/just-for-you", isAuth, getJustForYou);

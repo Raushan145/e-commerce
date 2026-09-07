@@ -77,17 +77,16 @@ export default function NewArrival() {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
 
         {/* Header */}
-        <div className="flex items-end justify-between py-2 ">
+        <div className="flex px-2 md:px-5 items-center justify-between py-1 ">
             <button></button>
 
-          <div>
+          <div >
 
             <h2
               className="
                 font-serif
                 text-[#293b25]
-                text-xl
-                sm:text-xl
+                text-lg
                 md:text-2xl
               "
             >

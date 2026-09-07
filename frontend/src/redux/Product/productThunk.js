@@ -180,7 +180,7 @@ export const addRecentlyViewedThunk = createAsyncThunk(
     try {
 
       const response = await axios.post(
-        `${ServerURL}/api/v1/product/view/${productId}`,
+        `${ServerURL}/api/v1/product/recent-view/${productId}`,
         {},
         {
           withCredentials: true,

@@ -15,17 +15,17 @@ const PORT = 8080;
 connectDB();
 
 
-// app.use(cors({
-//     origin:"https://airbnbclone-b7rb.onrender.com",
-//     credentials:true
-// }))
+app.use(cors({
+    origin:"https://e-commerce-backend-6mkz.onrender.com",
+    credentials:true
+}))
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 
 app.use(express.json());
 app.use(cookieParser())

@@ -7,10 +7,12 @@ import {
   FiChevronDown,
   FiUser,
 } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signoutThunk } from "../../redux/User/userThunk";
 
 const OwnerNavbar = ({ onMenuClick }) => {
+  const dispatch = useDispatch()
   const { userData } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
@@ -45,9 +47,9 @@ const OwnerNavbar = ({ onMenuClick }) => {
     setProfileOpen(false);
 
     // Later logout thunk yaha call karenge
-    console.log("Owner Logout");
+   dispatch(signoutThunk());
 
-    navigate("/login");
+    navigate("/signin");
   };
 
   // ================= PROFILE =================

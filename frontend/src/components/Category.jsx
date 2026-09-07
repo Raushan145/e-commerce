@@ -11,13 +11,12 @@ export default function CategorySection() {
 
     <section className="w-full bg-[#fffdf8]  ">
       {/* Heading */}
-      <div className="text-center py-2">
+      <div className="text-center py-1">
         <h2
           className="
             font-serif
             text-[#293b25]
-            text-xl
-            sm:text-xl
+            text-lg
             md:text-2xl
           "
         >

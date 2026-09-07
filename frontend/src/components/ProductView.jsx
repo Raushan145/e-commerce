@@ -38,9 +38,9 @@ const ProductView = () => {
   const { wishListItem = [] } = useSelector((state) => state.cart);
   const { cartItems } = useSelector((state) => state.cart);
    const isCart = cartItems.find(i => i._id == product?._id) 
-   console.log(isCart?.quantity)
+   console.log(isCart)
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(isCart?.quantity);
+  const [quantity, setQuantity] = useState(isCart?.quantity );
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [isInCart, setIsInCart] = useState(isCart == "undefined" ? false : true)
 
@@ -254,7 +254,7 @@ const ProductView = () => {
       {/* ================================================= */}
 
       <main className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-8 lg:px-8 ">
-        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+        <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           {/* ================================================= */}
           {/* LEFT - IMAGE */}
           {/*  PRODUCT IMAGE GALLERY  */}
@@ -573,14 +573,8 @@ const ProductView = () => {
                   <div className="absolute right-3 top-3">
                     <span
                       className="
-              rounded-full
-              bg-white
-              px-2.5
-              py-1.5
-              text-[8px]
-              font-semibold
-              text-red-500
-              shadow-sm
+                     -right-10 absolute top-2 z-10 w-32 rotate-45 bg-rose-500 py-1 text-center text-sm font-bold text-white shadow-md 
+             
             "
                     >
                       {discount}% OFF
@@ -882,7 +876,7 @@ const ProductView = () => {
             {/* COLLECTIONS */}
 
             {product.collections?.length > 0 && (
-              <div className="mt-4 flex flex-wrap items-center gap-2">
+              <div className="mt-2 flex flex-wrap items-center gap-2">
                 <span className="mr-1 text-[10px] text-gray-400">
                   Collection
                 </span>
@@ -989,7 +983,7 @@ const ProductView = () => {
                 <div className="flex h-12 items-center rounded-xl border border-gray-200 bg-white">
                   <button
                     onClick={decreaseQuantity}
-                    disabled={quantity <= 1}
+
                     className="
                       flex
                       h-full
@@ -1047,8 +1041,8 @@ const ProductView = () => {
                     hover:bg-[#1f2e1c]
                   "
                 >   
-                  {isInCart ? <IoCartOutline size={17}/> : <FiShoppingBag size={17} />}
-                  {isInCart ? "View in Cart" :" Add to Bag"}
+                  {isInCart != "undefined" ? <IoCartOutline size={17}/> : <FiShoppingBag size={17} />}
+                  {isInCart != "undefined" ? "View in Cart" :" Add to Bag"}
                 </button>
               </div>
             )}
