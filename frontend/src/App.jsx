@@ -6,6 +6,7 @@ import { getCollectionsThunk } from './redux/collections/collectionThunk';
 import { getCategoriesThunk } from './redux/category/categoryThunk';
 import { getAllProductsThunk, getNewArrivalProductThunk, getProductsThunk } from './redux/Product/productThunk';
 
+// export const ServerURL = "http://localhost:8080";
 export const ServerURL = "http://localhost:8080";
 
 const App = () => {
