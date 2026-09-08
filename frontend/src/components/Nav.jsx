@@ -30,9 +30,10 @@ const Nav = () => {
     (state) => state.user.isAuthenticated,
   );
 
-  const { cartItems = [], wishListItem = [] } = useSelector(
+  const { cartItems = [] } = useSelector(
     (state) => state.cart,
   );
+  const {wishlistItems} = useSelector((state) => state.wishlist)
 
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -143,7 +144,7 @@ const Nav = () => {
 
                 <button
                   onClick={() => navigate("/")}
-                  className="shrink-0 text-left"
+                  className="shrink-0 text-left select-none"
                 >
 
                   <h1
@@ -152,7 +153,7 @@ const Nav = () => {
                       font-semibold
                       tracking-[4px]
                       text-[#293b25]
-                      sm:text-[25px]
+                      sm:text-[25px] 
                     "
                   >
                     SWARNIKA
@@ -243,7 +244,7 @@ const Nav = () => {
                   {/* Wishlist */}
 
                   <button
-                    onClick={() => navigate("/wishlist")}
+                    onClick={() => navigate("/wishlists")}
                     className="
                       hidden
                       flex-col
@@ -259,7 +260,7 @@ const Nav = () => {
 
                       <IoMdHeartEmpty size={24} />
 
-                      {wishListItem.length > 0 && (
+                      {wishlistItems.length > 0 && (
                         <span
                           className="
                             absolute -right-2 -top-2
@@ -273,7 +274,7 @@ const Nav = () => {
                             text-white
                           "
                         >
-                          {wishListItem.length}
+                          {wishlistItems.length}
                         </span>
                       )}
 

@@ -61,7 +61,7 @@ const Signin = () => {
         px-4
         py-8
         overflow-hidden
-
+        select-none
         bg-[#182017]
       "
     >
@@ -135,6 +135,7 @@ const Signin = () => {
             </div>
 
             <h1
+              onClick={() => navigate("/")}
               className="
                 font-serif
                 text-3xl

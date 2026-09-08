@@ -1,8 +1,25 @@
 import { FiHeart } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToWishlistThunk,
+  removeFromWishlistThunk,
+} from "../redux/wishlist/wishlistThunk";
 
 export default function NewArrivalCard({ product }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+  const isWishlisted = wishlistItems.some((item) => item._id === product?._id);
+
+  const handleWishlist = (event) => {
+    event.stopPropagation();
+    dispatch(
+      isWishlisted
+        ? removeFromWishlistThunk(product._id)
+        : addToWishlistThunk(product._id),
+    );
+  };
 
   return (
     <article
@@ -91,8 +108,12 @@ export default function NewArrivalCard({ product }) {
 
             transition
           "
+          onClick={handleWishlist}
         >
-          <FiHeart size={14} />
+          <FiHeart
+            size={14}
+            className={isWishlisted ? "fill-red-500 text-red-500" : ""}
+          />
         </button>
 
         {/* Product Image */}

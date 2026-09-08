@@ -4,7 +4,6 @@ const savedCart = localStorage.getItem("cartItems");
 
 const initialState = {
   cartItems: savedCart && savedCart !== "undefined"? JSON.parse(savedCart): [],
-  wishListItem: [],
 };
 
 const cartSlice = createSlice({

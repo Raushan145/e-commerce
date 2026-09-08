@@ -21,7 +21,11 @@ import {
   addRecentlyViewedThunk,
   getProductByIdThunk,
 } from "../redux/Product/productThunk";
-import { addToCart, toggleWishlist, updateCartQuantity } from "../redux/Cart/cartSlice";
+import { addToCart, updateCartQuantity } from "../redux/Cart/cartSlice";
+import {
+  addToWishlistThunk,
+  removeFromWishlistThunk,
+} from "../redux/wishlist/wishlistThunk";
 import { saveRecentlyViewed } from "../utils/recentlyViewed";
 
 const ProductView = () => {
@@ -35,13 +39,12 @@ const ProductView = () => {
     (state) => state.product,
   );
 
-  const { wishListItem = [] } = useSelector((state) => state.cart);
+  const { wishlistItems = [] } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
    const isCart = cartItems.find(i => i._id == product?._id) 
    console.log(isCart)
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(isCart?.quantity );
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [isInCart, setIsInCart] = useState(isCart == "undefined" ? false : true)
 
   // GET PRODUCT
@@ -70,13 +73,9 @@ const ProductView = () => {
   // WISHLIST CHECK
   // =====================================================
 
-  useEffect(() => {
-    if (product?._id) {
-      const exists = wishListItem?.some((item) => item._id === product._id);
-
-      setIsWishlisted(exists);
-    }
-  }, [product?._id, wishListItem]);
+  const isWishlisted = wishlistItems.some(
+    (item) => item._id === product?._id,
+  );
 
   // DISCOUNT
 
@@ -144,7 +143,13 @@ const ProductView = () => {
   // =====================================================
 
   const handleWishlist = () => {
-    dispatch(toggleWishlist(product));
+    if (!product?._id) return;
+
+    dispatch(
+      isWishlisted
+        ? removeFromWishlistThunk(product._id)
+        : addToWishlistThunk(product._id),
+    );
   };
 
   // =====================================================
@@ -253,7 +258,7 @@ const ProductView = () => {
       {/* PRODUCT */}
       {/* ================================================= */}
 
-      <main className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-8 lg:px-8 ">
+      <main className="mx-auto max-w-7xl px-4 py-3 sm:px-6 sm:py-3 lg:px-8 ">
         <div className="grid gap-4 md:gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           {/* ================================================= */}
           {/* LEFT - IMAGE */}

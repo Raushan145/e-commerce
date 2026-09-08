@@ -10,21 +10,23 @@ import collectionRouter from './routes/collectionRoutes.js';
 import categoryRouter from './routes/categoryRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import bannerRouter from './routes/bannerRoutes.js';
+import wishlistRouter from './routes/wishlistRoutes.js';
 const app = express();
 const PORT = 8080;
 connectDB();
+const api = process.env.API_URL
 
-
-app.use(cors({
-    origin:"https://swarnika-79vl.onrender.com",
-    credentials:true,
-}))
 
 // app.use(cors({
-//     origin: "http://localhost:5173",
+//     origin:"https://swarnika-79vl.onrender.com",
 //     credentials:true,
-//   })
-// );
+// }))
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true,
+  })
+);
 
 // const allowedOrigins = [
 //     process.env.CLIENT_URL,
@@ -42,12 +44,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1/user", AuthRouter)
-app.use("/api/v1/coupon", couponRouter);
-app.use("/api/v1/collection", collectionRouter);
-app.use("/api/v1/category", categoryRouter);
-app.use("/api/v1/product", productRouter);
-app.use("/api/v1/banner", bannerRouter);
+app.use(`${api}/user`, AuthRouter)
+app.use(`${api}/coupon`, couponRouter);
+app.use(`${api}/collection`, collectionRouter);
+app.use(`${api}/category`, categoryRouter);
+app.use(`${api}/product`, productRouter);
+app.use(`${api}/banner`, bannerRouter);
+app.use(`${api}/wishlist`, wishlistRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

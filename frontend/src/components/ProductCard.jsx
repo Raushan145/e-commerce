@@ -15,6 +15,8 @@ import {
   updateCartQuantity,
   toggleWishlist,
 } from "../redux/Cart/cartSlice";
+import { addToWishlistThunk, removeFromWishlistThunk } from "../redux/wishlist/wishlistThunk";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
@@ -36,13 +38,24 @@ export default function ProductCard({ product }) {
 
   const isInCart = !!isCart;
 
-  // ==========================================
-  // WISHLIST
-  // ==========================================
+  // check isWISHLIST
 
-  const isWishlisted = wishListItem?.some(
-    (item) => item._id === product?._id
-  );
+  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+  const {loading} = useSelector((state) => state.wishlist);
+
+  const isWishlisted = wishlistItems.some((item) => item._id === product?._id);
+
+  // WISHLIST
+
+  const handleWishlist = (event) => {
+    event.stopPropagation();
+
+     if (isWishlisted) {
+      dispatch(removeFromWishlistThunk(product?._id));
+    } else {
+      dispatch(addToWishlistThunk(product?._id));
+    }
+  };
 
   // ==========================================
   // PRODUCT DATA
@@ -154,15 +167,6 @@ export default function ProductCard({ product }) {
     navigate("/cart");
   };
 
-  // ==========================================
-  // WISHLIST
-  // ==========================================
-
-  const handleWishlist = (event) => {
-    event.stopPropagation();
-
-    dispatch(toggleWishlist(product));
-  };
 
   // ==========================================
   // RENDER
@@ -318,6 +322,7 @@ export default function ProductCard({ product }) {
           type="button"
           aria-label="Add to wishlist"
           onClick={handleWishlist}
+          disabled={loading}
           className="
             absolute
             right-2.5
@@ -345,14 +350,11 @@ export default function ProductCard({ product }) {
             sm:w-9
           "
         >
-          <FiHeart
-            size={14}
-            className={
-              isWishlisted
-                ? "fill-[#293b25] text-[#293b25]"
-                : ""
-            }
-          />
+          {isWishlisted ? (
+            <IoMdHeart className="text-xl text-red-500" />
+          ) : (
+            <IoMdHeartEmpty className="text-xl text-gray-700" />
+          )}
         </button>
       </div>
 

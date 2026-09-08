@@ -146,7 +146,7 @@ export const getCurrentUser = async (req,res) => {
 
     try {
       const token = req.cookies.token;
-      console.log("Hit Get Current User", token)
+      // console.log("Hit Get Current User", token)
 
         if (!token) {
           return res.status(401).json({ message: "Unauthorized"});
@@ -158,8 +158,6 @@ export const getCurrentUser = async (req,res) => {
         }
 
         const user = await User.findById(userId).select("-password")
-       
-        // .populate("listing","title image1 image2 image3 description rent category city landmark")
        
         if(!user){
           return  res.status(400).json({message:"Current User not found"})

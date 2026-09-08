@@ -73,6 +73,7 @@ const Signup = () => {
         py-8
         overflow-hidden
         bg-[#182017]
+        select-none
       "
     >
       {/* ================= BACKGROUND IMAGE ================= */}
@@ -144,6 +145,7 @@ const Signup = () => {
             </div>
 
             <h1
+              onClick={() => navigate("/")}
               className="
                 font-serif
                 text-3xl
