@@ -20,9 +20,32 @@ connectDB();
 //     credentials:true,
 // }))
 
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials:true,
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     credentials:true,
+//   })
+// );
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_UR,
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Postman/server-to-server requests ke liye
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
   })
 );
 

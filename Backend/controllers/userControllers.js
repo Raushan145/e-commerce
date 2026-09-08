@@ -116,7 +116,12 @@ export const SignIn = async (req, res) => {
 //  LogOut
 export const SignOut = async (req, res) => {
   try {
-    res.clearCookie("token", authCookieOptions);
+     res.clearCookie("token", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/",
+    });
     
     return res.status(200).json({
       success: true,
