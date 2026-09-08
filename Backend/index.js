@@ -16,7 +16,7 @@ connectDB();
 
 
 app.use(cors({
-    origin:"https://e-commerce-backend-6mkz.onrender.com",
+    origin:"https://swarnika-79vl.onrender.com",
     credentials:true
 }))
 
