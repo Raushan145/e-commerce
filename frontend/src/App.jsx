@@ -7,8 +7,8 @@ import { getCategoriesThunk } from './redux/category/categoryThunk';
 import { getAllProductsThunk, getNewArrivalProductThunk, getProductsThunk } from './redux/Product/productThunk';
 import { getWishlistThunk } from './redux/wishlist/wishlistThunk';
 
-// export const ServerURL = "https://e-commerce-backend-6mkz.onrender.com";
-export const ServerURL = "http://localhost:8080";
+export const ServerURL = "https://e-commerce-backend-6mkz.onrender.com";
+// export const ServerURL = "http://localhost:8080";
 
 const App = () => {
 

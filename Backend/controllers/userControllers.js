@@ -2,26 +2,6 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import genToken from "../utils/genToken.js";
 
-const isProduction = process.env.NODE_ENV === "production";
-
-const cookieOptions = isProduction
-  ? {
-      // Production
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    }
-  : {
-      // Development
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    };
-
 export const signup = async (req, res) => {
 
   try {
@@ -54,7 +34,21 @@ export const signup = async (req, res) => {
 
     const token = await genToken(user._id);
 
-    res.cookie("token", token, cookieOptions);
+     // Development
+        // res.cookie("token", token, {
+        // httpOnly: true,
+        // secure: false,
+        // sameSite: "lax",
+        // maxAge: 7 * 24 * 60 * 60 * 1000,
+        // });
+
+        // Production
+         res.cookie("token", token, {
+         httpOnly: true,
+         secure: true,
+         sameSite: "None",
+         maxAge: 7 * 24 * 60 * 60 * 1000,
+         });
 
     return res
       .status(201)
@@ -96,7 +90,22 @@ export const SignIn = async (req, res) => {
     }
     
     const token = await genToken(user._id);
-    res.cookie("token", token, cookieOptions);
+   
+     // Development
+        // res.cookie("token", token, {
+        // httpOnly: true,
+        // secure: false,
+        // sameSite: "lax",
+        // maxAge: 7 * 24 * 60 * 60 * 1000,
+        // });
+
+        // Production
+         res.cookie("token", token, {
+         httpOnly: true,
+         secure: true,
+         sameSite: "None",
+         maxAge: 7 * 24 * 60 * 60 * 1000,
+         });
 
     return res.status(200).json({
       message: "LogIn Successfully",
@@ -123,12 +132,12 @@ export const SignIn = async (req, res) => {
 //  LogOut
 export const SignOut = async (req, res) => {
   try {
-     res.clearCookie("token", {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
-      path: "/",
-    });
+       res.clearCookie("token", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "none",
+            path: "/"
+        })
     
     return res.status(200).json({
       success: true,

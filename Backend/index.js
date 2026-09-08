@@ -17,16 +17,16 @@ connectDB();
 const api = process.env.API_URL
 
 
-// app.use(cors({
-//     origin:"https://swarnika-79vl.onrender.com",
-//     credentials:true,
-// }))
-
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin:"https://swarnika-79vl.onrender.com",
     credentials:true,
-  })
-);
+}))
+
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     credentials:true,
+//   })
+// );
 
 // const allowedOrigins = [
 //     process.env.CLIENT_URL,
