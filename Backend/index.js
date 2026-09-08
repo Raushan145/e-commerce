@@ -15,21 +15,20 @@ const PORT = 8080;
 connectDB();
 
 
-app.use(cors({
-    origin:"https://swarnika-79vl.onrender.com",
-    credentials:true
-}))
+// app.use(cors({
+//     origin:"https://swarnika-79vl.onrender.com",
+//     credentials:true,
+// }))
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   })
-// );
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true,
+  })
+);
 
 app.use(express.json());
-app.use(cookieParser())
-// app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/user", AuthRouter)
 app.use("/api/v1/coupon", couponRouter);

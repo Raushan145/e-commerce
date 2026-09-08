@@ -43,13 +43,10 @@ const OwnerNavbar = ({ onMenuClick }) => {
   }, []);
 
   // ================= LOGOUT =================
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setProfileOpen(false);
-
-    // Later logout thunk yaha call karenge
-   dispatch(signoutThunk());
-
-    navigate("/signin");
+    await dispatch(signoutThunk()).unwrap();
+    navigate("/signin", { replace: true });
   };
 
   // ================= PROFILE =================

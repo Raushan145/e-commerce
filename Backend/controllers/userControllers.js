@@ -2,6 +2,19 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import genToken from "../utils/genToken.js";
 
+const isProduction =
+  process.env.NODE_ENV === "production" ||
+  process.env.COOKIE_SECURE === "true" ||
+  process.env.CLIENT_URL?.startsWith("https://");
+
+const authCookieOptions = {
+  httpOnly: true,
+  secure: isProduction,
+  sameSite: isProduction ? "none" : "lax",
+  path: "/",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
+
 export const signup = async (req, res) => {
 
   try {
@@ -34,21 +47,7 @@ export const signup = async (req, res) => {
 
     const token = await genToken(user._id);
 
-    // Development
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: false,
-    //   sameSite: "strict",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-
-    // Production
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, authCookieOptions);
 
     return res
       .status(201)
@@ -69,7 +68,7 @@ export const signup = async (req, res) => {
     return res
       .status(500)
       .json({ message: "SignUp failed. Please try again." });
-  }
+    }
 };
 
 // Sign In
@@ -88,24 +87,9 @@ export const SignIn = async (req, res) => {
     if (!isMatch) {
       return res.status(404).json({ message: "Incorrect email or Password" });
     }
-
+    
     const token = await genToken(user._id);
-
-    // Development
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: false,
-    //   sameSite: "lax",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
-
-    // Production
-     res.cookie("token", token, {
-     httpOnly: true,
-     secure: true,
-     sameSite: "None",
-     maxAge: 7 * 24 * 60 * 60 * 1000,
-     });
+    res.cookie("token", token, authCookieOptions);
 
     return res.status(200).json({
       message: "LogIn Successfully",
@@ -132,15 +116,12 @@ export const SignIn = async (req, res) => {
 //  LogOut
 export const SignOut = async (req, res) => {
   try {
-    const token = req.cookies.token;
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-    });
+    res.clearCookie("token", authCookieOptions);
     
-    return res.status(200).json({ message: "LogOut Successfully" });
+    return res.status(200).json({
+      success: true,
+      message: "LogOut Successfully",
+    });
   } catch (error) {
     console.error("SignOut error:", error);
     return res

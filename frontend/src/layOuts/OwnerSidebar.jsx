@@ -12,10 +12,13 @@ import {
 import { CiDiscount1 } from "react-icons/ci";
 
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signoutThunk } from "../redux/User/userThunk";
 
 const OwnerSidebar = ({ open, setOpen }) => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const menuItems = [
     {
@@ -65,12 +68,9 @@ const OwnerSidebar = ({ open, setOpen }) => {
     },
   ];
 
-  const handleLogout = () => {
-    console.log("Owner Logout");
-
-    // logout thunk yaha call karenge
-
-    navigate("/login");
+  const handleLogout = async () => {
+    await dispatch(signoutThunk()).unwrap();
+    navigate("/signin", { replace: true });
   };
 
   return (
