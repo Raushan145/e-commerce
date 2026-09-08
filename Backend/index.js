@@ -15,10 +15,10 @@ const PORT = 8080;
 connectDB();
 
 
-// app.use(cors({
-//     origin:"https://swarnika-79vl.onrender.com",
-//     credentials:true,
-// }))
+app.use(cors({
+    origin:"https://swarnika-79vl.onrender.com",
+    credentials:true,
+}))
 
 // app.use(cors({
 //     origin: "http://localhost:5173",
@@ -26,28 +26,17 @@ connectDB();
 //   })
 // );
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.CLIENT_UR,
-];
+// const allowedOrigins = [
+//     process.env.CLIENT_URL,
+//     "http://localhost:5173",
+// ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Postman/server-to-server requests ke liye
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//   })
+// );
 
 app.use(express.json());
 app.use(cookieParser());

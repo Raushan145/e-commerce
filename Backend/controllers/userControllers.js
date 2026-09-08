@@ -2,18 +2,25 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import genToken from "../utils/genToken.js";
 
-const isProduction =
-  process.env.NODE_ENV === "production" ||
-  process.env.COOKIE_SECURE === "true" ||
-  process.env.CLIENT_URL?.startsWith("https://");
+const isProduction = process.env.NODE_ENV === "production";
 
-const authCookieOptions = {
-  httpOnly: true,
-  secure: isProduction,
-  sameSite: isProduction ? "none" : "lax",
-  path: "/",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-};
+const cookieOptions = isProduction
+  ? {
+      // Production
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    }
+  : {
+      // Development
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
 
 export const signup = async (req, res) => {
 
@@ -47,7 +54,7 @@ export const signup = async (req, res) => {
 
     const token = await genToken(user._id);
 
-    res.cookie("token", token, authCookieOptions);
+    res.cookie("token", token, cookieOptions);
 
     return res
       .status(201)
@@ -89,7 +96,7 @@ export const SignIn = async (req, res) => {
     }
     
     const token = await genToken(user._id);
-    res.cookie("token", token, authCookieOptions);
+    res.cookie("token", token, cookieOptions);
 
     return res.status(200).json({
       message: "LogIn Successfully",
@@ -138,8 +145,8 @@ export const SignOut = async (req, res) => {
 export const getCurrentUser = async (req,res) => {
 
     try {
-      // console.log("Hit Get Current User")
-        const token = req.cookies.token;
+      const token = req.cookies.token;
+      console.log("Hit Get Current User", token)
 
         if (!token) {
           return res.status(401).json({ message: "Unauthorized"});
