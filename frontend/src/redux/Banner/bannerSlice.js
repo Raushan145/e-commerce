@@ -43,8 +43,7 @@ const bannerSlice = createSlice({
       )
 
       .addCase(
-        getActiveBannersThunk.fulfilled,
-        (state, action) => {
+        getActiveBannersThunk.fulfilled,(state, action) => {
           state.loading = false;
           state.activeBanners = action.payload;
         }

@@ -202,27 +202,7 @@ const DynamicProducts = () => {
 
       <div className="mx-auto w-full max-w-[1400px] px-4 py-3 sm:px-6 sm:py-3 lg:px-10 lg:py-3">
 
-        {/* ================================================= */}
-        {/* BREADCRUMB */}
-        {/* ================================================= */}
-
-        {/* <div className="flex items-center gap-1.5 text-[9px] text-gray-400">
-
-          <span className="transition hover:text-[#293b25]">
-            Home
-          </span>
-
-          <FiChevronRight size={11} />
-
-          <span className="text-[#293b25]">
-            {title}
-          </span>
-
-        </div> */}
-
-        {/* ================================================= */}
         {/* HEADER */}
-        {/* ================================================= */}
 
         <div className=" border-b border-gray-100 pb-2">
 
@@ -265,9 +245,7 @@ const DynamicProducts = () => {
 
         </div>
 
-        {/* ================================================= */}
         {/* PRODUCTS */}
-        {/* ================================================= */}
 
         {products.length === 0 ? (
 

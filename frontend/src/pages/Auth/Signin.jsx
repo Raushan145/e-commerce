@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FiEye,
   FiEyeOff,
@@ -9,7 +9,9 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { signinThunk } from "../../redux/User/userThunk";
+import { googleAuthThunk, signinThunk } from "../../redux/User/userThunk";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 const Signin = () => {
   const dispatch = useDispatch();
@@ -46,9 +48,44 @@ const Signin = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Continue with Google");
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const response = await dispatch(
+        googleAuthThunk({
+          email: user.email,
+          name: user.displayName || user.email?.split("@")[0] || "Google User",
+          mobile: "",
+          profileImage: {
+            url: user.photoURL || "",
+            public_id: user.photoURL || "",
+          },
+          role: "user",
+        })
+      ).unwrap();
+
+      navigate(response.user?.role?.toLowerCase() === "owner" ? "/owner" : "/", { replace: true });
+    } catch (error) {
+      console.error("Google login failed:", error);
+      setError(error?.message || "Google sign-in failed. Please try again.");
+    }
   };
+
+   
+    useEffect(() => {
+    if (!error) return;
+  
+    const timer = setTimeout(() => {
+      setError("")
+    }, 5000);
+  
+    return () => clearTimeout(timer);
+  }, [error, dispatch]);
+  
 
   return (
     <main
@@ -279,6 +316,7 @@ const Signin = () => {
                 </label>
 
                 <button
+                  onClick={() => navigate("/forget-password")}
                   type="button"
                   className="
                     text-[10px]

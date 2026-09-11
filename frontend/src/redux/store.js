@@ -7,6 +7,7 @@ import productReducer from "./Product/productSlice.js";
 import cartReducer from "./Cart/cartSlice.js";
 import bannerReducer from "./Banner/bannerSlice.js";
 import wishlistReducer from "./wishlist/wishlistSlice.js";
+import addressReducer from "./address/addressSlice.js";
 
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     cart: cartReducer,
     banner:bannerReducer,
     wishlist: wishlistReducer,
+    address: addressReducer,
   },
 });
 

@@ -17,10 +17,20 @@ import {
   FiHelpCircle,
   FiLogOut,
   FiChevronRight,
+  FiChevronDown,
+  FiSettings,
 } from "react-icons/fi";
+
+// import {
+//   FiMenu,
+//   FiBell,
+//   FiLogOut,
+//   FiUser,
+// } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signoutThunk } from "../redux/User/userThunk";
+import { useRef } from "react";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -30,6 +40,10 @@ const Nav = () => {
     (state) => state.user.isAuthenticated,
   );
 
+  const userData = useSelector(
+    (state) => state.user.userData,
+  );
+
   const { cartItems = [] } = useSelector(
     (state) => state.cart,
   );
@@ -37,6 +51,8 @@ const Nav = () => {
 
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef(null);
 
   const closeMenu = () => {
     setShowMenu(false);
@@ -57,11 +73,30 @@ const Nav = () => {
     navigate("/signin", { replace: true });
   };
 
-  const handleLogout = async () => {
-    await dispatch(signoutThunk());
-    closeMenu();
-    navigate("/signin", { replace: true });
-  };
+  // ================= LOGOUT =================
+    const handleLogout = async () => {
+      setProfileOpen(false);
+      await dispatch(signoutThunk()).unwrap();
+      navigate("/signin", { replace: true });
+    };
+  
+    // ================= PROFILE =================
+    const handleProfile = () => {
+      setProfileOpen(false);
+      navigate("/owner/profile");
+    };
+  
+    // ================= SETTINGS =================
+    const handleSettings = () => {
+      setProfileOpen(false);
+      navigate("/owner/settings");
+    };
+
+  // const handleLogout = async () => {
+  //   await dispatch(signoutThunk());
+  //   closeMenu();
+  //   navigate("/signin", { replace: true });
+  // };
 
   return (
     <>
@@ -286,28 +321,7 @@ const Nav = () => {
 
                   </button>
 
-                  {/* Account */}
-
-                  <button
-                    onClick={handleAccount}
-                    className="
-                      hidden
-                      flex-col
-                      items-center
-                      text-gray-700
-                      transition
-                      hover:text-[#293b25]
-                      md:flex
-                    "
-                  >
-
-                    <FiUser size={22} />
-
-                    <span className="mt-1 text-[10px]">
-                      {isAuthenticated ? "Logout" : "Account"}
-                    </span>
-
-                  </button>
+               
 
                   {/* Cart */}
 
@@ -352,6 +366,30 @@ const Nav = () => {
 
                   </button>
 
+                     {/* Account */}
+
+                  <button
+                    // onClick={()=> setProfileOpen((prev) => !prev)}
+                    onClick={() => setShowMenu(true)}
+                    className="
+                      hidden
+                      flex-col
+                      items-center
+                      text-gray-700
+                      transition
+                      hover:text-[#293b25]
+                      md:flex
+                    "
+                  >
+
+                    <FiUser size={22} />
+
+                    <span className="mt-1 text-[10px]">
+                     Account
+                    </span>
+
+                  </button>
+
                   {/* Hamburger */}
 
                   <button
@@ -372,6 +410,288 @@ const Nav = () => {
                     <FiMenu size={21} />
                   </button>
 
+                <div
+                      ref={profileRef}
+                      className="relative"
+                    >
+            
+                      {/* PROFILE BUTTON */}
+            
+            
+            
+                      {/* ================================================= */}
+                      {/* PROFILE DROPDOWN */}
+                      {/* ================================================= */}
+            
+                      {profileOpen && (
+            
+                        <div
+                          className="
+                            absolute
+                            right-0
+                            top-[52px]
+            
+                            w-[280px]
+            
+                            bg-white
+            
+                            border
+                            border-gray-200
+            
+                            rounded-2xl
+            
+                            shadow-[0_15px_45px_rgba(0,0,0,0.12)]
+            
+                            overflow-hidden
+            
+                            animate-[fadeIn_.15s_ease-out]
+                          "
+                        >
+            
+                          {/* ================= USER HEADER ================= */}
+            
+                          <div
+                            className="
+                              p-4
+                              md:hidden block
+                              bg-[#fafaf7]
+            
+                              border-b
+                              border-gray-100
+                            "
+                          >
+            
+                            <div className="flex items-center gap-3 ">
+            
+                              {/* Avatar */}
+            
+                              <div
+                                className="
+                                  w-12
+                                  h-12
+                                  rounded-full
+            
+                                  bg-[#293b25]
+            
+                                  text-white
+            
+                                  flex
+                                  items-center
+                                  justify-center
+            
+                                  flex-shrink-0
+                                "
+                              >
+                                <FiUser size={21} />
+                              </div>
+            
+            
+                              {/* Details */}
+            
+                              <div className="min-w-0">
+            
+                                <h3
+                                  className="
+                                    text-sm
+                                    font-semibold
+                                    text-[#293b25]
+            
+                                    truncate
+                                  "
+                                >
+                                  {userData?.name || "Owner Name"}
+                                </h3>
+            
+                                <p
+                                  className="
+                                    text-[11px]
+                                    text-gray-500
+            
+                                    truncate
+                                  "
+                                >
+                                  {userData?.email || "owner@email.com"}
+                                </p>
+            
+                                <span
+                                  className="
+                                    inline-block
+                                    mt-1
+            
+                                    px-2
+                                    py-[2px]
+            
+                                    rounded-full
+            
+                                    bg-[#293b25]/10
+                                    text-[#293b25]
+            
+                                    text-[8px]
+                                    uppercase
+                                    tracking-[1px]
+                                    font-medium
+                                  "
+                                >
+                                  {userData?.role || "Owner"}
+                                </span>
+            
+                              </div>
+            
+                            </div>
+            
+                          </div>
+            
+            
+                          {/* ================= MENU ================= */}
+            
+                          <div className="p-2">
+            
+                            {/* Profile */}
+            
+                            <button
+                              onClick={handleProfile}
+                              className="
+                                w-full
+            
+                                flex
+                                items-center
+                                gap-3
+            
+                                px-3
+                                py-2.5
+            
+                                rounded-xl
+            
+                                text-left
+            
+                                text-sm
+                                text-gray-600
+            
+                                hover:bg-[#f5f5f2]
+                                hover:text-[#293b25]
+            
+                                transition
+                              "
+                            >
+            
+                              <FiUser size={17} />
+            
+                              <div>
+                                <p className="text-xs font-medium">
+                                  My Profile
+                                </p>
+            
+                                <p className="text-[9px] text-gray-400">
+                                  View and edit your profile
+                                </p>
+                              </div>
+            
+                            </button>
+            
+            
+                            {/* Settings */}
+            
+                            <button
+                              onClick={handleSettings}
+                              className="
+                                w-full
+            
+                                flex
+                                items-center
+                                gap-3
+            
+                                px-3
+                                py-2.5
+            
+                                rounded-xl
+            
+                                text-left
+            
+                                text-sm
+                                text-gray-600
+            
+                                hover:bg-[#f5f5f2]
+                                hover:text-[#293b25]
+            
+                                transition
+                              "
+                            >
+            
+                              <FiSettings size={17} />
+            
+                              <div>
+                                <p className="text-xs font-medium">
+                                  Settings
+                                </p>
+            
+                                <p className="text-[9px] text-gray-400">
+                                  Manage account settings
+                                </p>
+                              </div>
+            
+                            </button>
+            
+                          </div>
+            
+            
+                          {/* ================= LOGOUT ================= */}
+            
+                          <div
+                            className="
+                              border-t
+                              border-gray-100
+                              p-2
+                            "
+                          >
+            
+                            <button
+                              onClick={handleLogout}
+                              className="
+                                w-full
+            
+                                flex
+                                items-center
+                                gap-3
+            
+                                px-3
+                                py-2.5
+            
+                                rounded-xl
+            
+                                text-left
+            
+                                text-red-500
+            
+                                hover:bg-red-50
+            
+                                transition
+                              "
+                            >
+            
+                              <FiLogOut size={17} />
+            
+                              <div>
+            
+                                <p className="text-xs font-medium">
+                                  Logout
+                                </p>
+            
+                                <p className="text-[9px] text-red-400">
+                                  Sign out from owner panel
+                                </p>
+            
+                              </div>
+            
+                            </button>
+            
+                          </div>
+            
+                        </div>
+            
+                      )}
+            
+                  </div>
+
                 </div>
 
               </div>
@@ -381,71 +701,6 @@ const Nav = () => {
 
         </nav>
 
-
-        {/* =====================================================
-            DESKTOP CATEGORY NAV
-        ===================================================== */}
-
-        {/* <div className="hidden border-b border-[#f0ede7] bg-white md:block">
-
-          <div
-            className="
-              mx-auto flex h-11 max-w-[1000px]
-              items-center justify-center
-              gap-8
-              text-[10px]
-              font-medium
-              uppercase
-              tracking-[1.5px]
-              text-[#625f57]
-            "
-          >
-
-            <button
-              onClick={() => navigate("/")}
-              className="transition hover:text-[#293b25]"
-            >
-              Home
-            </button>
-
-            <button
-              onClick={() => navigate("/category")}
-              className="transition hover:text-[#293b25]"
-            >
-              Categories
-            </button>
-
-            <button
-              onClick={() => navigate("/collection")}
-              className="transition hover:text-[#293b25]"
-            >
-              Collections
-            </button>
-
-            <button
-              onClick={() => navigate("/new-arrivals")}
-              className="transition hover:text-[#293b25]"
-            >
-              New Arrivals
-            </button>
-
-            <button
-              onClick={() => navigate("/all-products")}
-              className="transition hover:text-[#293b25]"
-            >
-              Shop
-            </button>
-
-            <button
-              onClick={() => navigate("/about")}
-              className="transition hover:text-[#293b25]"
-            >
-              About
-            </button>
-
-          </div>
-
-        </div> */}
 
       </header>
 
@@ -460,7 +715,7 @@ const Nav = () => {
             fixed inset-0 z-[100]
             bg-black/40
             backdrop-blur-[2px]
-            md:hidden
+           
           "
           onClick={closeMenu}
         >
@@ -471,12 +726,7 @@ const Nav = () => {
 
           <aside
             onClick={(e) => e.stopPropagation()}
-            className="
-              absolute right-0 top-0
-              flex h-full
-              w-[85%] max-w-[360px]
-              flex-col
-              bg-[#fffdfa]
+            className="absolute right-0 top-0 flex h-full w-[85%] max-w-[360px] flex-col bg-[#fffdfa]
               shadow-2xl
               animate-[slideIn_0.3s_ease-out]
             "
@@ -484,59 +734,24 @@ const Nav = () => {
 
             {/* ================= DRAWER HEADER ================= */}
 
-            <div
-              className="
-                flex items-center
-                justify-between
-                border-b border-[#eeeae2]
-                px-5 py-5
-              "
-            >
-
+            <div className="flex items-center justify-between border-b border-[#eeeae2] px-5 py-5">
               <div>
 
-                <h2
-                  className="
-                    text-lg
-                    font-semibold
-                    tracking-[3px]
-                    text-[#293b25]
-                  "
-                >
+                <button onClick={()=> navigate("/")} className=" text-lg font-semibold tracking-[3px] text-[#293b25]">
                   SWARNIKA
-                </h2>
+                </button>
 
-                <p
-                  className="
-                    mt-0.5
-                    text-[7px]
-                    tracking-[3px]
-                    text-gray-400
-                  "
-                >
+                <p className=" mt-0.5 text-[7px] tracking-[3px] text-gray-400">
                   FASHION STORE
                 </p>
 
               </div>
 
-              <button
-                onClick={closeMenu}
-                className="
-                  flex h-9 w-9
-                  items-center justify-center
-                  rounded-full
-                  bg-[#f5f2eb]
-                  text-gray-600
-                  transition
-                  hover:bg-[#293b25]
-                  hover:text-white
-                "
-              >
+              <button onClick={closeMenu} className=" flex h-9 w-9 items-center justify-center rounded-full bg-[#f5f2eb] text-gray-600 transition hover:bg-[#293b25] hover:text-white">
                 <FiX size={19} />
               </button>
 
             </div>
-
 
             {/* ================= PROFILE ================= */}
 
@@ -545,7 +760,7 @@ const Nav = () => {
               <button
                 onClick={() =>
                   isAuthenticated
-                    ? goTo("/profile")
+                    ? goTo("/my-account")
                     : goTo("/signin")
                 }
                 className="
@@ -554,22 +769,22 @@ const Nav = () => {
                   gap-3
                   rounded-xl
                   bg-[#f6f3ec]
-                  p-3
+                  p-3 cursor-pointer
                   text-left
                 "
               >
 
-                <div
-                  className="
-                    flex h-11 w-11
-                    items-center justify-center
-                    rounded-full
-                    bg-[#293b25]
-                    text-white
-                  "
-                >
-                  <FiUser size={19} />
-                </div>
+                <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-[#293b25] text-white">
+                    {userData?.profileImage?.url ? (
+                      <img
+                        src={userData.profileImage.url}
+                        alt={userData?.name || "User"}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <FiUser size={19} />
+                    )}
+                  </div>
 
                 <div className="min-w-0 flex-1">
 
@@ -618,8 +833,8 @@ const Nav = () => {
               <MobileMenuItem
                 icon={<FiHeart />}
                 title="Wishlist"
-                badge={wishListItem.length}
-                onClick={() => goTo("/wishlist")}
+                badge={wishlistItems.length}
+                onClick={() => goTo("/wishlists")}
               />
 
               <MobileMenuItem
